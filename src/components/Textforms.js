@@ -23,6 +23,19 @@ function Textforms(props) {
 
   }
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    props.showAlert("Copied to Clipboard!", "success");
+  }
+
+
+  const handleextraSpaces = () => {
+  let newText = text.split(/[ ]+/);
+  setText(newText.join(" "));
+  props.showAlert("Extra spaces removed!", "success")
+  }
+
+
 const handleonChange = (event) =>{
   setText(event.target.value)
 }
@@ -40,6 +53,10 @@ const [text, setText] = useState('');
 
   <button className="btn btn-primary mx-2" onClick={handleLoClick}>Convert To Lowercase</button>
 
+  <button className="btn btn-primary mx-2" onClick={handleCopy}>Copy Text</button>
+
+  <button className="btn btn-primary mx-2" onClick={handleextraSpaces}>Remove Extra Space</button>
+
   <button className="btn btn-primary mx-2" onClick={handleClearClick}>Clear All Text</button>
     
 </div>
@@ -48,7 +65,7 @@ const [text, setText] = useState('');
 <div className='container my-3' style={{color : props.mode==='dark'?'white':'#042743'}} >
   <h1>Your Text Summary</h1>
 
-  <p>{(text.trim()).length === 0 ? 0 : (text.trim()).split('').length} Words and {text.length} Characters</p>
+  <p>{text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words and {text.length} characters</p>
 
   <p>{0.008 * text.split(" ").length } Minutes read</p>
 
